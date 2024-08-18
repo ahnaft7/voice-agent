@@ -51,7 +51,7 @@ const handle = app.getRequestHandler();
 
 const groq = new Groq({ apiKey: "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" });
 
-const WS_PORT = 3001;
+// const WS_PORT = 3001;
 
 app.prepare().then(() => {
   const server = createServer((req, res) => {
@@ -121,6 +121,7 @@ app.prepare().then(() => {
           isProcessing = false;
         }
       }
+      return false;
     });
 
     ws.on('close', () => {
