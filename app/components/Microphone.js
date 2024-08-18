@@ -33,7 +33,10 @@ const Microphone = () => {
           </div>
         )}
       </button>
-      <p className="mt-2 text-black">{text}</p>
+      <div className="mt-4 p-4 border rounded-md bg-gray-100">
+        <h2 className="text-lg font-semibold">Your Voice Input:</h2>
+        <p className="mt-2 text-black">{text}</p>
+      </div>
       {response && (
         <div className="mt-4 p-4 border rounded-md bg-gray-100">
           <h2 className="text-lg font-semibold">LLM Response:</h2>
