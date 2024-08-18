@@ -111,7 +111,11 @@ export const useRecordVoice = () => {
   const websocket = useRef(null);
 
   useEffect(() => {
-    websocket.current = new WebSocket('ws://localhost:3001');
+    const wsUrl = process.env.NODE_ENV === 'production' 
+      ? 'wss://murmuring-brook-70982-594f2df149b8.herokuapp.com'
+      : 'ws://localhost:3001';
+
+    websocket.current = new WebSocket(wsUrl);
 
     websocket.current.onmessage = (event) => {
       const data = JSON.parse(event.data);

@@ -58,7 +58,7 @@ app.prepare().then(() => {
     handle(req, res);
   });
 
-  const wss = new WebSocket.Server({ server });
+  const wss = new WebSocket.Server({ server }); //Change to WS_PORT for local testing, and server for deployment
 
   wss.on('connection', (ws) => {
     console.log('WebSocket connection established');
@@ -130,6 +130,6 @@ app.prepare().then(() => {
   server.listen(PORT, (err) => {
     if (err) throw err;
     console.log('> Ready on http://localhost:${PORT}');
-    console.log(`> WebSocket server running on ws://localhost:${PORT}`);
+    console.log(`> WebSocket server running on ws://localhost:${PORT}`); //Change to WS_PORT for local testing, and PORT for deployment
   });
 });
