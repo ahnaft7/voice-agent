@@ -3,20 +3,21 @@ import { useRecordVoice } from "../hooks/useRecordVoice"; // Adjust path as need
 import { IconMicrophone } from "@/app/components/IconMicrophone";
 
 const Microphone = () => {
-  const { recording, startRecording, stopRecording, text, response } = useRecordVoice();
+//   const { recording, startRecording, stopRecording, text, response } = useRecordVoice();
+  const { recording, toggleRecording, text, response } = useRecordVoice();
 
-  const handleClick = () => {
-    if (recording) {
-      stopRecording();
-    } else {
-      startRecording();
-    }
-  };
+//   const handleClick = () => {
+//     if (recording) {
+//       stopRecording();
+//     } else {
+//       startRecording();
+//     }
+//   };
 
   return (
     <div className="flex flex-col justify-center items-center">
       <button
-        onClick={handleClick}
+        onClick={toggleRecording}
         className={`relative border-none bg-transparent w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-300 ${recording ? 'bg-red-600' : 'bg-green-600'}`}
       >
         <IconMicrophone 
