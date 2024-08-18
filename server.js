@@ -66,6 +66,7 @@ app.prepare().then(() => {
     let isProcessing = false;
 
     ws.on('message', async (message) => {
+      console.log('Received message:', message);
       audioBuffer = Buffer.concat([audioBuffer, message]);
 
       const COOLDOWN_PERIOD = 500; // 500ms cooldown
@@ -123,6 +124,10 @@ app.prepare().then(() => {
 
     ws.on('close', () => {
       console.log('WebSocket connection closed');
+    });
+
+    ws.on('error', (error) => {
+      console.error('WebSocket error:', error);
     });
   });
 
