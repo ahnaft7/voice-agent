@@ -3,7 +3,7 @@ import { useRecordVoice } from "../hooks/useRecordVoice"; // Adjust path as need
 import { IconMicrophone } from "@/app/components/IconMicrophone";
 
 const Microphone = () => {
-  const { recording, startRecording, stopRecording, text } = useRecordVoice();
+  const { recording, startRecording, stopRecording, text, response } = useRecordVoice();
 
   const handleClick = () => {
     if (recording) {
@@ -34,6 +34,12 @@ const Microphone = () => {
         )}
       </button>
       <p className="mt-2 text-black">{text}</p>
+      {response && (
+        <div className="mt-4 p-4 border rounded-md bg-gray-100">
+          <h2 className="text-lg font-semibold">LLM Response:</h2>
+          <p className="mt-2 text-black">{response}</p>
+        </div>
+      )}
     </div>
   );
 };
