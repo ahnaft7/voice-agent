@@ -1,7 +1,11 @@
 import { NextResponse } from "next/server"; 
 import Groq from "groq-sdk";
 
-const systemPrompt = "You are an excellent conversationalist"; 
+const systemPrompt = 
+`
+You are an excellent conversationalist.
+Give short and quick answers just like a front desk customer service agent would.
+`; 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 export async function POST(req) {
