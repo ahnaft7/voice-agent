@@ -8,16 +8,7 @@ export const useRecordVoice = () => {
   const [response, setResponse] = useState("");
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [recording, setRecording] = useState(false);
-//   const isRecording = useRef(false);
   const chunks = useRef([]);
-
-//   const startRecording = () => {
-//     if (mediaRecorder) {
-//       isRecording.current = true;
-//       mediaRecorder.start();
-//       setRecording(true);
-//     }
-//   };
 
   const startRecording = () => {
     if (mediaRecorder && !recording) {
@@ -36,7 +27,7 @@ export const useRecordVoice = () => {
 
   const getText = async (base64data) => {
     try {
-      const response = await fetch("/api/stt", {
+      const sttResponse = await fetch("/api/stt", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -45,10 +36,10 @@ export const useRecordVoice = () => {
           audio: base64data,
         }),
       }).then((res) => res.json());
-      const { text } = response;
+      const { text } = sttResponse;
       setText(text);
 
-      console.log("This is the spoken text", text)
+      console.log("This is the spoken text", text);
 
       // Send the transcribed text to the Groq LLM API
       const llmResponse = await fetch("/api/response", {
@@ -60,19 +51,40 @@ export const useRecordVoice = () => {
       }).then((res) => res.json());
 
       setResponse(llmResponse.response); // Update state with LLM response
+      
+      // Send the LLM response to the TTS API
+      try {
+        const response = await fetch("/api/tts", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ text: llmResponse.response }),
+        });
+      
+        // Check if the response is OK before parsing
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+      
+        const ttsResponse = await response.json();
+        const { audioUrl } = ttsResponse;
+        console.log("Audio URL:", audioUrl);
+      } catch (error) {
+        console.error("Error fetching audio:", error);
+      }
+      
+
+      // need to set the audio URL somewhere in your state to use it
+      // setAudioUrl(audioUrl); 
 
     } catch (error) {
-        console.error("Error processing audio or interacting with LLM:", error);
+      console.error("Error processing audio or interacting with APIs:", error);
     }
   };
 
   const initialMediaRecorder = (stream) => {
     const mediaRecorder = new MediaRecorder(stream);
-
-    // mediaRecorder.onstart = () => {
-    //   createMediaStream(stream);
-    //   chunks.current = [];
-    // };
 
     mediaRecorder.ondataavailable = (ev) => {
       chunks.current.push(ev.data);
