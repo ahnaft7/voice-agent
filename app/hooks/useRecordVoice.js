@@ -115,7 +115,7 @@ export const useRecordVoice = () => {
       ? 'wss://murmuring-brook-70982-594f2df149b8.herokuapp.com'
       : 'ws://localhost:3001';
 
-    websocket.current = new WebSocket(wsUrl);
+    websocket.current = new WebSocket('wss://murmuring-brook-70982-594f2df149b8.herokuapp.com');
 
     websocket.current.onmessage = (event) => {
       const data = JSON.parse(event.data);
