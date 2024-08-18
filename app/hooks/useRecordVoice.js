@@ -138,6 +138,9 @@ export const useRecordVoice = () => {
       mediaRecorder.current.ondataavailable = (event) => {
         if (event.data.size > 0 && websocket.current.readyState === WebSocket.OPEN) {
           websocket.current.send(event.data);
+
+          mediaRecorder.current.stop();
+          mediaRecorder.current.start(5000);
         }
       };
   
