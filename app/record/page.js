@@ -8,7 +8,7 @@ export default function Home() {
           Voice Chat
         </h1>
         <p className="text-lg text-gray-600">
-          Click the microphone to start recording your voice.
+          Click the microphone to start/stop the voice chat
         </p>
       </div>
       <Microphone />

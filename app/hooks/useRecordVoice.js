@@ -102,7 +102,6 @@
 
 "use client";
 import { useEffect, useState, useRef } from "react";
-import { blobToBase64 } from "../utils/blobToBase64";
 
 export const useRecordVoice = () => {
   const [text, setText] = useState("");
@@ -155,8 +154,18 @@ export const useRecordVoice = () => {
     if (mediaRecorder.current && recording) {
       mediaRecorder.current.stop();
       setRecording(false);
+      // Stop all tracks on the stream
+      mediaRecorder.current.stream.getTracks().forEach(track => track.stop());
     }
   };
 
-  return { recording, startRecording, stopRecording, text, response };
+  const toggleRecording = async () => {
+    if (recording) {
+      stopRecording();
+    } else {
+      await startRecording();
+    }
+  };
+
+  return { recording, toggleRecording, text, response };
 };
