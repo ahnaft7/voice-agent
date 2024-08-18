@@ -129,7 +129,7 @@ app.prepare().then(() => {
   const PORT = process.env.PORT || 3000;
   server.listen(PORT, (err) => {
     if (err) throw err;
-    console.log('> Ready on http://localhost:${PORT}');
+    console.log(`> Ready on http://localhost:${PORT}`);
     console.log(`> WebSocket server running on ws://localhost:${PORT}`); //Change to WS_PORT for local testing, and PORT for deployment
   });
 });
