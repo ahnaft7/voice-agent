@@ -62,6 +62,7 @@ app.prepare().then(() => {
 
   wss.on('connection', (ws) => {
     console.log('WebSocket connection established');
+    ws.send('Hello server');
     let audioBuffer = Buffer.alloc(0);
     let isProcessing = false;
 
