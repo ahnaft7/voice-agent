@@ -22,9 +22,9 @@ export async function POST(req) {
             ],
             model: "llama3-8b-8192", // or another appropriate Groq model
         });
-        console.log("This is the llm response:", completion.response)
+        console.log("This is the llm response:", completion.choices[0].message.content)
         // Assuming completion.response contains the completion text
-        return NextResponse.json({ response: completion.response });
+        return NextResponse.json({ response: completion.choices[0].message.content });
     } catch (error) {
         console.error("Error:", error);
         return NextResponse.json({ error: "Error interacting with LLM" }, { status: 500 });
