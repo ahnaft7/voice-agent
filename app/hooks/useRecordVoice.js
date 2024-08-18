@@ -138,10 +138,13 @@ export const useRecordVoice = () => {
       mediaRecorder.current.ondataavailable = (event) => {
         if (event.data.size > 0 && websocket.current.readyState === WebSocket.OPEN) {
           websocket.current.send(event.data);
+
+          mediaRecorder.current.stop();
+          mediaRecorder.current.start(5000); // Adjust the time slice as needed
         }
       };
   
-      mediaRecorder.current.start(1000); // Send audio data every 1 second
+      mediaRecorder.current.start(5000); // Send audio data every 5 seconds
       setRecording(true);
     } catch (error) {
       console.error('Error starting recording:', error);
