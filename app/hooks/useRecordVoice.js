@@ -97,5 +97,5 @@ export const useRecordVoice = () => {
     }
   }, []);
 
-  return { recording, startRecording, stopRecording, text, response };
+  return { recording, startRecording, stopRecording, text, response, chunks };
 };
