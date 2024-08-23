@@ -51,20 +51,23 @@ const handle = app.getRequestHandler();
 
 const groq = new Groq({ apiKey: "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" });
 
-// const WS_PORT = 3001;
+const WS_PORT = 3001;
 
 app.prepare().then(() => {
   const server = createServer((req, res) => {
     handle(req, res);
   });
 
-  const wss = new WebSocket.Server({ server }); //Change to WS_PORT for local testing, and server for deployment
+  const wss = new WebSocket.Server({ port: WS_PORT }); //Change to port: WS_PORT for local testing, and server for deployment
 
   wss.on('connection', (ws) => {
     console.log('WebSocket connection established');
-    ws.send('Hello server');
     let audioBuffer = Buffer.alloc(0);
     let isProcessing = false;
+
+    ws.on('error', (error) => {
+      console.error('WebSocket error:', error);
+    });
 
     ws.on('message', async (message) => {
       console.log('Received message:', message);
@@ -127,16 +130,12 @@ app.prepare().then(() => {
     ws.on('close', () => {
       console.log('WebSocket connection closed');
     });
-
-    ws.on('error', (error) => {
-      console.error('WebSocket error:', error);
-    });
   });
 
   const PORT = process.env.PORT || 3000;
   server.listen(PORT, (err) => {
     if (err) throw err;
     console.log(`> Ready on http://localhost:${PORT}`);
-    console.log(`> WebSocket server running on ws://localhost:${PORT}`); //Change to WS_PORT for local testing, and PORT for deployment
+    console.log(`> WebSocket server running on ws://localhost:${WS_PORT}`); //Change to WS_PORT for local testing, and PORT for deployment
   });
 });
